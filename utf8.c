@@ -39,7 +39,7 @@ int RuneLen(rune r)
 int RuneStart(char c)
 {
     int len = utf8_len(c);
-    return len > 0 && len <= UTF8_MAX;
+    return len <= UTF8_MAX;
 }
 
 rune RuneDecode(const char* s, int* len)
@@ -82,7 +82,7 @@ int ValidString(const char* s)
     int len;
     while (*s) {
         len = utf8_len(*s);
-        if (len < 1 || len > UTF8_MAX)
+        if (len > UTF8_MAX)
             return 0;
         s += len;
     }
