@@ -1,22 +1,23 @@
 #include "hashtable.h"
+#include "utf8.h"
 #include "vector.h"
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
 
-#ifndef __printflike
-#define __printflike(fmtarg, firstvararg) __attribute__((__format__(__printf__, fmtarg, firstvararg)))
-#endif
+// #ifndef __printflike
+// #define __printflike(fmtarg, firstvararg) __attribute__((__format__(__printf__, fmtarg, firstvararg)))
+// #endif
 
-static void __printflike(1, 2) logf(const char *fmt, ...)
-{
-    va_list ap;
+// static void __printflike(1, 2) logf(const char *fmt, ...)
+// {
+//     va_list ap;
 
-    va_start(ap, fmt);
-    vprintf(fmt, ap);
-    printf("\n");
-    va_end(ap);
-}
+//     va_start(ap, fmt);
+//     vprintf(fmt, ap);
+//     printf("\n");
+//     va_end(ap);
+// }
 
 static void test_vector()
 {
@@ -30,13 +31,13 @@ static void test_vector()
     vector_push_back(&vi, 4);
     vector_push_back(&vi, 5);
 
-    logf("=========== test vector ============");
+    // logf("=========== test vector ============");
 
-    for (int i = 0; i < vi.len; i++)
-        logf("vi[%d]=%d", i, vi.arr[i]);
+    // for (int i = 0; i < vi.len; i++)
+    //     logf("vi[%d]=%d", i, vi.arr[i]);
 
-    logf("vi.len = %d", vi.len);
-    logf("vi.cap = %d", vi.cap);
+    // logf("vi.len = %d", vi.len);
+    // logf("vi.cap = %d", vi.cap);
 }
 
 struct mynode {
@@ -83,15 +84,15 @@ static void test_hashtable()
         hash_table_put(ht, &n->node);
     }
 
-    logf("=========== test hash table ===========");
-    logf("size: %d", hash_table_size(ht));
+    // logf("=========== test hash table ===========");
+    // logf("size: %d", hash_table_size(ht));
 
     hash_table_for_each(ht, visit);
 
     struct mynode a, *p;
     strcpy(a.key, "key_2");
     p = mynode_entry(hash_table_get(ht, &a.node));
-    logf("==> key: %s, value: %d", p->key, p->value);
+    // logf("==> key: %s, value: %d", p->key, p->value);
 
     hash_table_del(ht, &p->node);
 
@@ -102,6 +103,16 @@ static void test_hashtable()
 
 int main()
 {
-    test_vector();
-    test_hashtable();
+    // test_vector();
+    // test_hashtable();
+
+    const char *s = "你好啊音柱";
+
+    int c = RuneCount(s);
+    rune a[c];
+    RuneDecodeString(s, a);
+
+    for (int i = 0; i < c; i++)
+        printf("0x%0x, ", (int)a[i]);
+    printf("\n");
 }

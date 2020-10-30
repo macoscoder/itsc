@@ -1,6 +1,6 @@
 #include "utf8.h"
 
-static const int UTF8_MAX = 4;
+#define UTF8_MAX 4
 
 struct utf8 {
     char mask;
@@ -42,7 +42,7 @@ int RuneStart(char c)
     return len <= UTF8_MAX;
 }
 
-rune RuneDecode(const char* s, int* len)
+rune RuneDecode(const char *s, int *len)
 {
     rune r;
     int i;
@@ -55,7 +55,7 @@ rune RuneDecode(const char* s, int* len)
     return r;
 }
 
-int RuneEncode(rune r, char* s)
+int RuneEncode(rune r, char *s)
 {
     int len, sft, i;
     len = RuneLen(r);
@@ -69,7 +69,7 @@ int RuneEncode(rune r, char* s)
     return len;
 }
 
-int RuneCount(const char* s)
+int RuneCount(const char *s)
 {
     int n;
     for (n = 0; *s; ++n)
@@ -77,7 +77,7 @@ int RuneCount(const char* s)
     return n;
 }
 
-int ValidString(const char* s)
+int ValidString(const char *s)
 {
     int len;
     while (*s) {
@@ -87,4 +87,15 @@ int ValidString(const char* s)
         s += len;
     }
     return 1;
+}
+
+void RuneDecodeString(const char *s, rune *out)
+{
+    int c = RuneCount(s);
+
+    for (int i = 0; i < c; i++) {
+        int len;
+        *out++ = RuneDecode(s, &len);
+        s += len;
+    }
 }

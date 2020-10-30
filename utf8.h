@@ -8,12 +8,13 @@ extern "C" {
 
 typedef int32_t rune;
 
-rune RuneDecode(const char* s, int* len);
-int RuneEncode(rune r, char* s);
-int RuneCount(const char* s);
+void RuneDecodeString(const char *s, rune *out);
+rune RuneDecode(const char *s, int *len);
+int RuneEncode(rune r, char *s);
+int RuneCount(const char *s);
 int RuneLen(rune r);
 int RuneStart(char c);
-int ValidString(const char* s);
+int ValidString(const char *s);
 
 #ifdef __cplusplus
 }
